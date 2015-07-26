@@ -1,0 +1,39 @@
+{
+  "manifest_version": 2,
+  "id": "cn.x181.now",
+  "name": "cn.x181.now",
+  "author": "redky",
+  "version": "1.0.0.1",
+  "description": "直接到sogou搜索",
+  "icons": {
+    "16": "default.ico",
+    "32": "default-big.png"
+  },
+  "option": {
+    "page": "options.html",
+    "width": "300px",
+    "height": "100px"
+  },
+  "permissions": [
+    "sogou",
+    "tabs",
+    "http://*/*",
+    "contextMenus",
+    "sidebarAction"
+  ],
+  "browser_action": {
+    "default_title": "Go to sogou",
+    "default_icon": "default-big.png"
+  },
+  "background": {
+    "page": "background.html",
+    "persistent": true,
+    "scripts": [
+      "gotosogou.js"
+    ]
+  },
+  "sidebar_action": {
+    "title": "历史记录",
+    "icon": "default.ico"
+  }
+}

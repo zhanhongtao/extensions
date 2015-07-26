@@ -1,0 +1,25 @@
+{
+  "name": "Build-SogouExplorer-Extension",
+  "description": "简化插件打包流程",
+  "author": "redky@qq.com",
+  "version": "0.1.1",
+  "license": {
+    "license": "MIT"
+  },
+  "dependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-font-spider": "^0.1.0",
+    "gulp-imagemin": "^2.3.0",
+    "gulp-json-editor": "^2.2.1",
+    "gulp-minify-css": "^1.0.0",
+    "gulp-minify-html": "^1.0.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.3",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-zip": "^3.0.2",
+    "imagemin-pngquant": "^4.1.2",
+    "xml-parser": "^1.2.1"
+  }
+}

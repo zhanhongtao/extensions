@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+</head>
+<body>
+<embed id="picdownloader" type="application/sogou-npruntime-picdownloader-plugin" />
+<script>
+var downloader = document.getElementById("picdownloader");
+
+function download(url, path, callback) {
+  if (typeof callback !== 'function') callback = function() {};
+  downloader.download(url, path, function() {
+    callback(null, url);
+  });
+}
+
+var queue = function queue( list, fn, callback, index, ret ) {
+  index = index || 0;
+  ret = ret || [];
+  var next = function ( value, stop, returnCurrentValue ) {
+    ret[ ret.length ] = value;
+    if ( stop ) {
+      return callback.apply( null, returnCurrentValue ? [value] : ret );
+    }
+    queue( list, fn, callback, ++index, ret );
+  };
+  if ( index < list.length ) {
+    var argus = [ list[ index ], index, ret ];
+    if ( fn.length ) {
+      argus = argus.slice( 0, fn.length - 1 );
+    }
+    argus.push( next );
+    fn.apply( null, argus );
+  } else if ( callback ) {
+    callback.apply( null, [index] );
+  }
+};
+
+var path = 'D:\\download\\';
+
+function todo(dir, list, done) {
+  queue(list, function(src, index, next) {
+    save = path + dir + '\\' + index + '.jpg';
+    download(src, save, function() {
+      next();
+    });
+  }, function() {
+    done();
+  });
+}
+
+sogouExplorer.extension.onRequest.addListener(function(request, sender, response) {
+  var cmd = request.cmd;
+  switch(cmd) {
+    case 'download':
+      todo(request.dir, request.src, function() {
+        sogouExplorer.tabs.sendRequest(sender.tab.id, {
+          cmd: 'next'
+        });
+      });
+      break;
+    default:
+      break;
+  }
+});
+</script>
+</body>
+</html>

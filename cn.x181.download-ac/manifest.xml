@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+  <id>com.sogou.download-ac</id>
+  <name>图片下载器</name>
+  <author></author>
+  <version>0.2.0.4</version>
+  <request_api_version>1</request_api_version>
+  <show_icon>false</show_icon>
+  <description>快速浏览和批量下载网页中的图片</description>
+  <background page="background.html" />
+  <plugins>
+    <plugin name="npPicDownloader" path="nppicdownloader.dll">
+    <mime_type>application/sogou-npruntime-picdownloader-plugin</mime_type>
+  </plugin>
+  </plugins>
+  <content_scripts>
+    <content_script coreType="webkit">
+        <js>content_script.js</js>
+        <match>*://ac.qq.com/*</match>
+        <run_at>document_end</run_at>
+    </content_script>
+  </content_scripts>
+</extension>
