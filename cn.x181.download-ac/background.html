@@ -114,7 +114,9 @@ sogouExplorer.extension.onRequest.addListener(function(request, sender, response
     // 设置自动项
     case 'setauto':
       config.isauto = request.data;
-      response();
+      sogouExplorer.tabs.sendRequest(tid, {
+        cmd: 'next'
+      });
       break;
     // 判定是否自动加载
     case 'isauto':

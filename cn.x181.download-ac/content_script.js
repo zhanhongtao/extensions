@@ -35,8 +35,6 @@ sogouExplorer.extension.onRequest.addListener(function(request) {
       sogouExplorer.extension.sendRequest({
         cmd: 'setauto',
         data: true
-      }, function() {
-        auto();
       });
     }
   } else if (request.cmd == 'do') {
