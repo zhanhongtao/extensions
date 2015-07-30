@@ -20,4 +20,9 @@
         <run_at>document_end</run_at>
     </content_script>
   </content_scripts>
+  <permissions>
+    <permission>sogou</permission>
+    <permission>sidebarAction</permission>
+  </permissions>
+  <sidebar_action icon="default.ico" title="切换自动下载漫画"></sidebar_action>
 </extension>

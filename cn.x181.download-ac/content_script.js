@@ -29,18 +29,29 @@ function donext() {
 sogouExplorer.extension.onRequest.addListener(function(request) {
   if (request.cmd === 'next') {
     donext();
+  } else if (request.cmd === 'confirm') {
+    var isauto = confirm('是否自动下载后续章节(已出)?');
+    if (isauto) {
+      sogouExplorer.extension.sendRequest({
+        cmd: 'setauto',
+        data: true
+      }, function() {
+        auto();
+      });
+    }
+  } else if (request.cmd == 'do') {
+    auto();
   }
 });
 
 var timer;
 var box = document.body;
-var scrollTop = box.scrollTop;
 function _scroll() {
   if (timer) {
     clearTimeout(timer);
     timer = null;
   }
-  box.scrollTop += 50;
+  box.scrollTop += 20;
   var view = window.innerHeight;
   var docHeight = document.documentElement.scrollHeight;
   if (box.scrollTop + view < docHeight) {
@@ -54,7 +65,7 @@ function _scroll() {
 
 function auto() {
   if (window == top) {
-    if (document.readyState == 'complate') {
+    if (document.readyState == 'complete') {
       _scroll();
     } else {
       document.onreadystatechange = function(e) {
@@ -67,4 +78,7 @@ function auto() {
   }
 }
 
-// auto();
+sogouExplorer.extension.sendRequest({
+  cmd: 'isauto'
+});
+

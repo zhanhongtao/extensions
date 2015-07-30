@@ -36,7 +36,11 @@ var queue = function queue( list, fn, callback, index, ret ) {
   }
 };
 
+// @TODO: 支持设定下载目录
 var path = 'D:\\download\\';
+var cache = {
+  // tabid: {isauto: true}
+};
 
 function todo(dir, list, done) {
   queue(list, function(src, index, next) {
@@ -49,20 +53,80 @@ function todo(dir, list, done) {
   });
 }
 
+// 侧边栏按钮只针对当前标签页有效.
+sogouExplorer.sidebarAction.onClicked.addListener(function() {
+  sogouExplorer.tabs.getSelected(function(tab) {
+    var url = tab.url;
+    var tid = tab.id;
+    if (url.indexOf('http://ac.qq.com/') == 0) {
+      var config = cache[tid] = cache[tid] || {isauto: false};
+      if (config.isauto) {
+        config.isauto = !config.isauto;
+      } else {
+        sogouExplorer.tabs.sendRequest(tid, {
+          cmd: 'do'
+        });
+      }
+    } else {
+      sogouExplorer.tabs.create({
+        'active': true,
+        'selected': true,
+        'coreType': 'Webkit',
+        'url': 'http://ac.qq.com/'
+      });
+    }
+  });
+});
+
+// 关闭标签/窗口时
+sogouExplorer.tabs.onRemoved.addListener(function(tid) {
+  if (cache[tid]) {
+    delete cache[tid];
+  }
+});
+
+// 标签页被更新时
+sogouExplorer.tabs.onUpdated.addListener(function(tid, info, tab) {
+  var url = tab.url;
+  if (url.indexOf('http://ac.qq.com/') != 0) {
+    if (cache[tid]) {
+      delete cache[tid];
+    }
+  }
+});
+
+// 事件侦听器
 sogouExplorer.extension.onRequest.addListener(function(request, sender, response) {
   var cmd = request.cmd;
+  var tab = sender.tab;
+  var tid = tab.id;
+  var config = cache[tid] = cache[tid] || {isauto: false};
   switch(cmd) {
+    // 开始下载
     case 'download':
       todo(request.dir, request.src, function() {
-        sogouExplorer.tabs.sendRequest(sender.tab.id, {
-          cmd: 'next'
+        var _cmd = config.isauto ? 'next' : 'confirm';
+        sogouExplorer.tabs.sendRequest(tid, {
+          cmd: _cmd
         });
       });
+      break;
+    // 设置自动项
+    case 'setauto':
+      config.isauto = request.data;
+      response();
+      break;
+    // 判定是否自动加载
+    case 'isauto':
+      if (config.isauto) {
+        sogouExplorer.tabs.sendRequest(tid, {cmd: 'do'});
+      }
       break;
     default:
       break;
   }
 });
+
 </script>
 </body>
 </html>
