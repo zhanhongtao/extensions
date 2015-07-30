@@ -92,6 +92,9 @@ sogouExplorer.tabs.onUpdated.addListener(function(tid, info, tab) {
     if (cache[tid]) {
       delete cache[tid];
     }
+  } else {
+    // @TODO:
+    // 在自动操作的标签页, 更新到其它漫画 - 需要停止下载.
   }
 });
 
