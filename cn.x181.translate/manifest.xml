@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+    <id>cn.x181.translate</id>
+    <version>0.2.1</version>
+    <request_api_version>4</request_api_version>
+		<show_icon>false</show_icon>
+    <name>百度翻译</name>
+    <description>右键菜单, 百度翻译</description>
+    <author>redky</author>
+	<background page="background.html" />
+</extension>

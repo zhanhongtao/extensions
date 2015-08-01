@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "Translate by Baidu",
+    "version": "0.2.1",
+    "description": "选中文本, 右键, 使用百度翻译",
+    "icons": {
+        "16": "default_16.png",
+        "48": "default_48.png",
+        "128": "default_128.png"
+    },
+    "permissions": [ "tabs", "http://*/*", "contextMenus" ],
+
+    "background": {
+        "persistent": true,
+        "scripts": [ "background.js" ]
+    }
+}
