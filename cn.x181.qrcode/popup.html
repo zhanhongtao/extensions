@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QRCode</title>
+  <style media="screen">
+    * {margin: 0;}
+    #box {padding: 10px;}
+    canvas { display: block; margin: 0 auto;}
+  </style>
+</head>
+<body>
+<div id="box"></div>
+<script src="./js/jquery-1.9.1.min.js"></script>
+<script src="./js/qrcode.js"></script>
+<script src="./js/jquery.qrcode.js"></script>
+<script>
+function utf16to8(str) {
+  var out, i, len, c;
+  out = "";
+  len = str.length;
+  for(i = 0; i < len; i++) {
+    c = str.charCodeAt(i);
+    if ((c >= 0x0001) && (c <= 0x007F)) {
+      out += str.charAt(i);
+    } else if (c > 0x07FF) {
+      out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+      out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+      out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+    } else {
+      out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+      out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+    }
+  }
+  return out;
+}
+function createQRCode(text) {
+  text = utf16to8(text);
+  var config = {
+    width: 180,
+    height: 180,
+    text: text,
+    render: 'canvas',
+    color: '#0066ff'
+  };
+  $( '#box' ).empty().qrcode( config );
+}
+
+var search = location.search, page;
+if (search.length > 2) {
+  search = search.slice(1);
+  createQRCode(search);
+} else {
+  sogouExplorer.tabs.getSelected(function(tab) {
+    var url = tab.url;
+    createQRCode(url);
+  });
+}
+</script>
+</body>
+</html>

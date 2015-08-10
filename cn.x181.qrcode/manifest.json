@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "id": "cn.x181.qrcode",
+  "author": "tt",
+  "name": "Create QRCode",
+  "version": "0.5",
+  "description": "生成二维码",
+  "icons": {
+    "16": "default.ico",
+    "32": "default-big.png"
+  },
+  "show_icon": false,
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "contextmenu"
+  ],
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "./js/background.js"
+    ]
+  }
+}
