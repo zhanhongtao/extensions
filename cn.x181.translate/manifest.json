@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Translate by Baidu",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "选中文本, 右键, 使用百度翻译",
     "icons": {
         "16": "default_16.png",

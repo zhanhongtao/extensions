@@ -38,6 +38,7 @@ var queue = function queue( list, fn, callback, index, ret ) {
 
 // @TODO: 支持设定下载目录
 var path = 'D:\\download\\';
+var match = 'http://ac.qq.com/';
 var cache = {
   // tabid: {isauto: true}
 };
@@ -58,7 +59,7 @@ sogouExplorer.sidebarAction.onClicked.addListener(function() {
   sogouExplorer.tabs.getSelected(function(tab) {
     var url = tab.url;
     var tid = tab.id;
-    if (url.indexOf('http://ac.qq.com/') == 0) {
+    if (url.indexOf(match) == 0) {
       var config = cache[tid] = cache[tid] || {isauto: false};
       if (config.isauto) {
         config.isauto = !config.isauto;
@@ -72,7 +73,7 @@ sogouExplorer.sidebarAction.onClicked.addListener(function() {
         'active': true,
         'selected': true,
         'coreType': 'Webkit',
-        'url': 'http://ac.qq.com/'
+        'url': match
       });
     }
   });
@@ -88,7 +89,7 @@ sogouExplorer.tabs.onRemoved.addListener(function(tid) {
 // 标签页被更新时
 sogouExplorer.tabs.onUpdated.addListener(function(tid, info, tab) {
   var url = tab.url;
-  if (url.indexOf('http://ac.qq.com/') != 0) {
+  if (url.indexOf(match) != 0) {
     if (cache[tid]) {
       delete cache[tid];
     }
@@ -131,7 +132,6 @@ sogouExplorer.extension.onRequest.addListener(function(request, sender, response
       break;
   }
 });
-
 </script>
 </body>
 </html>
