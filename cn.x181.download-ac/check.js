@@ -25,6 +25,7 @@ var fail = [];
 var fs = require('fs');
 var path = require('path');
 var base = './do';
+base = 'd:\\download\\';
 function check(base) {
   fs.readdir(base, function(error, files) {
     if (error) {

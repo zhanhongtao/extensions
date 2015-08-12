@@ -22,8 +22,16 @@ function dox() {
 
 // 下一画
 function donext() {
-  var next = document.querySelector('#mainControlNext');
-  next.click();
+  var nextPage = document.querySelector('#nextChapter');
+  sogouExplorer.extension.sendRequest({
+    cmd: 'nextpage',
+    data: nextPage.href
+  },
+  // @NOTE: test response
+  function() {
+    var next = document.querySelector('#mainControlNext');
+    next.click();
+  });
 }
 
 sogouExplorer.extension.onRequest.addListener(function(request) {

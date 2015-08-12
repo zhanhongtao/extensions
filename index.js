@@ -1,6 +1,7 @@
 /**
   @TODO:
   * 代码检查
+  * gulp-changed
 */
 
 // node
@@ -16,6 +17,8 @@ Object.keys(_util).forEach(function(key) {
 
 // third
 var del = require('del');
+// @todo: 支持 sourceMap 调试.
+// var gulpif = require('gulpif');
 var minifyhtml = require('gulp-minify-html');
 var minifycss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
@@ -33,6 +36,7 @@ var xmlparser = require('xml-parser');
 exports.task = function(gulp, config) {
   var input = config.input;
   var output = path.join(input, './release');
+  var sourceMap = config.sourceMap || false;
 
   // 清理旧文件
   // 清理 ./release 目录
@@ -153,10 +157,10 @@ exports.task = function(gulp, config) {
     var files = config.files.reduce(function(ret, file) {
       return file[0] === '!' && ret.push(file), ret;
     }, [
-      './images/**/*.png',
-      './images/**/*.jpeg',
-      './images/**/*.jpg',
-      './images/**/*.gif'
+      './**/*.png',
+      './**/*.jpeg',
+      './**/*.jpg',
+      './**/*.gif'
     ]);
     return gulp.src(files, {cwd: input})
       .pipe(imagemin({
@@ -182,7 +186,11 @@ exports.task = function(gulp, config) {
     var manifest = {}, name;
     if (isExist) {
       manifest = require(json);
-    } else {
+      if (!manifest.id) {
+        isExist = false;
+      }
+    }
+    if (!isExist) {
       var xml = path.resolve(input, './manifest.xml');
       var xmlstring = fs.readFileSync(xml, {encoding: 'utf8'});
       var json = xmlparser(xmlstring);
@@ -230,7 +238,7 @@ exports.task = function(gulp, config) {
   });
 
   // 开发环境
-  gulp.task('_dev', function() {
+  gulp.task('dev', function() {
     return gulp.src('./**/*', {cwd: input})
       .pipe(zip('./build.sext'))
       .pipe(gulp.dest(input));
