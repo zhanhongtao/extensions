@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>goto "flvcd.com" download</title>
+</head>
+<body>
+<script>
+function dox(src) {
+  var api = 'http://www.flvcd.com/parse.php?';
+  var config = {
+    format: 'super', // real/super/high
+    flag: 'one',
+    kw: encodeURIComponent(src)
+  };
+  api += Object.keys(config).map(function(key) {
+    return key + '=' + config[key];
+  }).join('&');
+  sogouExplorer.tabs.create({
+    url: api,
+    active: true,
+    selected: true
+  });
+}
+sogouExplorer.sidebarAction.onClicked.addListener(function() {
+  sogouExplorer.tabs.getSelected(function(tab) {
+    dox(tab.url);
+  });
+});
+</script>
+</body>
+</html>

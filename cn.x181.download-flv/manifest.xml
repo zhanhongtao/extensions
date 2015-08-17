@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+  <id>cn.x181.download-flv</id>
+  <name>去硕鼠下载</name>
+  <author>tt</author>
+  <version>0.1</version>
+  <request_api_version>1</request_api_version>
+  <show_icon>false</show_icon>
+  <description>点击后, 直接跳转到硕鼠网站.</description>
+  <background page="background.html" />
+  <permissions>
+    <permission>sogou</permission>
+    <permission>sidebarAction</permission>
+  </permissions>
+  <sidebar_action icon="default.ico" title="goto flvcd.com Download Video"></sidebar_action>
+</extension>
