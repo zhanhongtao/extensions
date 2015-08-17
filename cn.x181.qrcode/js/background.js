@@ -2,7 +2,8 @@
 
 // 插件配置信息
 var icon = './page.png';
-var title = '生成当前标签页URL二维码';
+// var title = '生成当前标签页URL二维码';
+var title = '';
 var popup = './popup.html';
 var size = {width: 205, height: 200};
 
