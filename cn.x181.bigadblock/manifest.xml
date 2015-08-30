@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+  <id>cn.x181.bigadblock</id>
+  <name>过滤大广告</name>
+  <version>0.1.4</version>
+  <author>redky</author>
+  <request_api_version>1</request_api_version>
+  <show_icon>false</show_icon>
+  <description>过滤超级大广告</description>
+  <content_scripts>
+    <content_script core_type="webkit">
+      <match>http://*/*</match>
+      <js>adblock.js</js>
+    </content_script>
+  </content_scripts>
+</extension>
