@@ -10,6 +10,7 @@
       var key = menuMap[id].key;
       var text = clickData[key];
       chrome.tabs.create({
+        index: tab.index + 1,
         // http://zh.wikipedia.org/wiki/
         url: menuMap[id].url.replace(/\{keyword\}/ig, encodeURIComponent(text)),
         active: true
@@ -22,7 +23,7 @@
       context: 'selection',
       title: '使用百度翻译翻译',
       key: 'selectionText',
-      url: 'http://dict.baidu.com/s?wd={keyword}'
+      url: 'http://fanyi.baidu.com/translate#auto/auto/{keyword}'
     }
   };
 
