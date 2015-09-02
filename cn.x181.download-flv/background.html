@@ -2,11 +2,19 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>goto "flvcd.com" download</title>
 </head>
 <body>
 <script>
-function dox(src) {
+function createTab(src, tab) {
+  sogouExplorer.tabs.create({
+    index: ++tab.index,
+    url: src,
+    active: true,
+    selected: true
+  });
+}
+
+function downFromFlvcd(src, tab) {
   var api = 'http://www.flvcd.com/parse.php?';
   var config = {
     format: 'super', // real/super/high
@@ -16,15 +24,27 @@ function dox(src) {
   api += Object.keys(config).map(function(key) {
     return key + '=' + config[key];
   }).join('&');
-  sogouExplorer.tabs.create({
-    url: api,
-    active: true,
-    selected: true
-  });
+  createTab(api, tab);
 }
+
+function downFromClipconverter(src, tab) {
+  var api = 'http://www.clipconverter.cc/?ref=addon&version=141&browser=userscript&url=';
+  api += encodeURIComponent(src);
+  createTab(api, tab);
+}
+
+function dox(src, tab) {
+  var pattern = /^https?:\/\/(www\.)?youtube\.com/i;
+  if (pattern.test(src)) {
+    downFromClipconverter(src, tab);
+  } else {
+    downFromFlvcd(src, tab);
+  }
+}
+
 sogouExplorer.sidebarAction.onClicked.addListener(function() {
   sogouExplorer.tabs.getSelected(function(tab) {
-    dox(tab.url);
+    dox(tab.url, tab);
   });
 });
 </script>
