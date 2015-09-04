@@ -35,18 +35,34 @@ function donext() {
 }
 
 sogouExplorer.extension.onRequest.addListener(function(request) {
-  if (request.cmd === 'next') {
-    donext();
-  } else if (request.cmd === 'confirm') {
-    var isauto = confirm('是否自动下载后续章节(已出)?');
-    if (isauto) {
-      sogouExplorer.extension.sendRequest({
-        cmd: 'setauto',
-        data: true
-      });
-    }
-  } else if (request.cmd == 'do') {
-    auto();
+  switch(request.cmd) {
+    case 'next':
+      donext();
+      break;
+    case 'confirm':
+      var isauto = confirm('是否自动下载后续章节(已出)?');
+      if (isauto) {
+        sogouExplorer.extension.sendRequest({
+          cmd: 'setauto',
+          data: true
+        });
+      }
+      break;
+    case 'do':
+      auto();
+      break;
+    case 'select':
+      var use = confirm('是否更改保存的目录?(默认 C:/download)');
+      if (use) {
+        sogouExplorer.extension.sendRequest({
+          cmd: 'select'
+        });
+      } else {
+        auto();
+      }
+      break;
+    default:
+      break;
   }
 });
 
