@@ -2,15 +2,13 @@
 <extension>
   <id>cn.x181.download-flv</id>
   <name>去下载</name>
+  <description>点击后, 直接跳转到下载网站.</description>
   <author>tt</author>
-  <version>0.2.0</version>
-  <request_api_version>1</request_api_version>
+  <version>0.3.2</version>
+  <request_api_version>3</request_api_version>
   <show_icon>false</show_icon>
-  <description>点击后, 直接跳转到flvcd.com/clipconverter.cc网站.</description>
   <background page="background.html" />
   <permissions>
-    <permission>sogou</permission>
-    <permission>sidebarAction</permission>
+    <permission>contextmenu</permission>
   </permissions>
-  <sidebar_action icon="default.ico" title="goto flvcd.com/clipconverter.cc Download Video"></sidebar_action>
 </extension>

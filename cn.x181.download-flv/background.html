@@ -17,7 +17,7 @@ function createTab(src, tab) {
 function downFromFlvcd(src, tab) {
   var api = 'http://www.flvcd.com/parse.php?';
   var config = {
-    format: 'super', // real/super/high
+    format: 'super',
     flag: 'one',
     kw: encodeURIComponent(src)
   };
@@ -33,20 +33,48 @@ function downFromClipconverter(src, tab) {
   createTab(api, tab);
 }
 
-function dox(src, tab) {
-  var pattern = /^https?:\/\/(www\.)?youtube\.com/i;
-  if (pattern.test(src)) {
-    downFromClipconverter(src, tab);
-  } else {
-    downFromFlvcd(src, tab);
-  }
+function downloadFromSavefrom(src, tab) {
+  var api = 'http://savefrom.net/?url=';
+  api += encodeURIComponent(src);
+  createTab(api, tab);
 }
 
-sogouExplorer.sidebarAction.onClicked.addListener(function() {
-  sogouExplorer.tabs.getSelected(function(tab) {
-    dox(tab.url, tab);
+
+var config = {
+  list: [
+    {
+      type: 'normal',
+      title: '鼹鼠(中文)',
+      contexts: 'all',
+      onclick: function(info, tab) {
+        downFromFlvcd(info.pageUrl, tab);
+      }
+    },
+    {
+      type: 'normal',
+      title: 'Clipconverter(英文)',
+      contexts: 'all',
+      onclick: function(info, tab) {
+        downFromClipconverter(info.pageUrl, tab);
+      }
+    },
+    {
+      type: 'normal',
+      title: 'Savefrom(英文)',
+      contexts: 'all',
+      onclick: function(info, tab) {
+        downloadFromSavefrom(info.pageUrl, tab);
+      }
+    }
+  ]
+};
+
+config.list.reverse().forEach(function(item) {
+  sogouExplorer.contextMenus.create(item, function() {
+    console.log(arguments);
   });
 });
+
 </script>
 </body>
 </html>
