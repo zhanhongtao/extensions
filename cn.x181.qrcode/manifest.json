@@ -12,8 +12,7 @@
   "show_icon": false,
   "permissions": [
     "tabs",
-    "http://*/*",
-    "contextmenu"
+    "http://*/*"
   ],
   "background": {
     "persistent": true,
