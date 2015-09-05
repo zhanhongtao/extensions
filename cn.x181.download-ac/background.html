@@ -8,6 +8,16 @@ function download(url, path, callback) {
   });
 }
 
+function type(s) {
+  return Object.prototype.toString.call(s).slice(8, -1).toLowerCase();
+}
+
+function getorigin(s) {
+  var a = document.createElement('a');
+  a.href = s;
+  return a.origin;
+}
+
 var queue = function queue( list, fn, callback, index, ret ) {
   index = index || 0;
   ret = ret || [];
@@ -30,10 +40,12 @@ var queue = function queue( list, fn, callback, index, ret ) {
   }
 };
 
+
 var defaultPath = 'C:\\DOWNLOAD\\';
-var match = 'http://ac.qq.com/';
-var supportDomain = [
-  /^https?:\/\/ac\.qq\.com\/ComicView\/chapter/i
+var ac = 'http://ac.qq.com/';
+var matches = [
+  /^https?:\/\/ac\.qq\.com\/ComicView\/chapter/i,
+  /^https?:\/\/([^\.]*)?\.zhihu\.com/i,
 ];
 
 var cache = {
@@ -57,8 +69,7 @@ function reset(tid) {
   }
 }
 
-function selectFolder(tid) {
-  var config = cache[tid] = cache[tid] || {isauto: false};
+function selectFolder(tid, config) {
   // 是否已选择 save 路径
   downloader.selectFolder(function(path){
     path = path === '' ? defaultPath : path;
@@ -75,12 +86,21 @@ sogouExplorer.sidebarAction.onClicked.addListener(function() {
     var url = tab.url;
     var tid = tab.id;
     if (
-      // confirm domain
-      supportDomain.some(function(f) {
-        return f.test(url);
+      matches.some(function(match) {
+        if (typeof match === 'string') {
+          return url.indexOf(match) === 0;
+        } else if (typeof match === 'function') {
+          return match(url);
+        } else if (type(match) === 'regexp') {
+          return match.test(url);
+        }
+        return false;
       })
     ) {
-      var config = cache[tid] = cache[tid] || {isauto: false};
+      var config = cache[tid] = cache[tid] || {
+        isauto: false, 
+        origin: getorigin(url)
+      };
       // 切换是否自动下一页.
       if (config.isauto) {
         config.isauto = !config.isauto;
@@ -100,7 +120,7 @@ sogouExplorer.sidebarAction.onClicked.addListener(function() {
         'active': true,
         'selected': true,
         'coreType': 'Webkit',
-        'url': match
+        'url': ac
       });
     }
   });
@@ -115,8 +135,12 @@ sogouExplorer.tabs.onRemoved.addListener(function(tid) {
 sogouExplorer.tabs.onUpdated.addListener(function(tid, info, tab) {
   var url = tab.url;
   // 切换到其它域
-  if (url.indexOf(match) != 0) {
-    reset(tid);
+  // @NOTE: 当切换到当前域名其他支持下载页面时, 存在异常
+  if (cache[tid]) {
+    var origin = getorigin(url);
+    if (origin !== cache[tid].origin) {
+      reset(tid);
+    }  
   }
 });
 
@@ -125,10 +149,13 @@ sogouExplorer.extension.onRequest.addListener(function(request, sender, response
   var cmd = request.cmd;
   var tab = sender.tab;
   var tid = tab.id;
-  var config = cache[tid] = cache[tid] || {isauto: false};
+  var config = cache[tid] = cache[tid] || {
+    isauto: false,
+    origin: getorigin(tab.url)
+  };
   switch(cmd) {
     case 'select':
-      selectFolder(tid);
+      selectFolder(tid, config);
       break;
     // 开始下载
     case 'download':

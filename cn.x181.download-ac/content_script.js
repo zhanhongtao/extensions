@@ -1,39 +1,3 @@
-function dox() {
-  // 取图片资源
-  var wrap = document.querySelector('#comicContain');
-  var images = wrap.querySelectorAll('img');
-  var list = [].slice.call(images, 0).filter(function(node) {
-    // 过滤两个广告
-    if (node.id && node.id.indexOf('ad') > -1) {
-      return false;
-    }
-    return true;
-  }).map(function(node) {
-    return node.src;
-  });
-  // 取目录名称
-  var dir = document.querySelector('.title-comicHeading').textContent;
-  sogouExplorer.extension.sendRequest({
-    cmd: 'download',
-    dir: dir,
-    src: list
-  });
-}
-
-// 下一画
-function donext() {
-  var nextPage = document.querySelector('#nextChapter');
-  sogouExplorer.extension.sendRequest({
-    cmd: 'nextpage',
-    data: nextPage.href
-  },
-  // @NOTE: test response
-  function() {
-    var next = document.querySelector('#mainControlNext');
-    next.click();
-  });
-}
-
 sogouExplorer.extension.onRequest.addListener(function(request) {
   switch(request.cmd) {
     case 'next':
@@ -81,7 +45,16 @@ function _scroll() {
       _scroll();
     }, 10);
   } else {
-    dox();
+    var is = true;
+    if (typeof checkScrollbar === 'function') {
+      is = checkScrollbar();
+    }
+    if (is) {
+      dox();
+    } else{
+      console.log('delay 1s');
+      setTimeout(_scroll, 1000);
+    }
   }
 }
 
@@ -104,3 +77,24 @@ sogouExplorer.extension.sendRequest({
   cmd: 'isauto'
 });
 
+function isvisible(node) {
+  var viewport = node.getBoundingClientRect();
+  if (viewport.top > 0 && viewport.top < window.innerHeight) {
+    return true;
+  };
+  return false;
+  // @todo
+  // * opacity - 0
+  // * display - none
+  // * visibility - hidden
+  // * clip
+  // * scale(0)
+  // * transform
+  // * transform/backface
+  // * z-index 小, 被覆盖
+  // * 相对于上级元素, 不可见
+  // * 不再可视区域内
+  // * [hidden]
+  // * height/width equal 0
+  // * No visibile content
+}

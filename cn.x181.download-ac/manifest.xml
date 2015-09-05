@@ -3,7 +3,7 @@
   <id>com.sogou.download-ac</id>
   <name>图片下载器</name>
   <author></author>
-  <version>0.3.0</version>
+  <version>0.4.2</version>
   <request_api_version>1</request_api_version>
   <show_icon>false</show_icon>
   <description>快速浏览和批量下载网页中的图片</description>
@@ -15,9 +15,16 @@
   </plugins>
   <content_scripts>
     <content_script coreType="webkit">
-        <js>content_script.js</js>
         <match>*://ac.qq.com/*</match>
         <run_at>document_end</run_at>
+        <js>content_script.js</js>
+        <js>ac.qq.script.js</js>
+    </content_script>
+    <content_script coreType="webkit">
+        <match>*://*.zhihu.com/*</match>
+        <run_at>document_end</run_at>
+        <js>content_script.js</js>
+        <js>zhihu.script.js</js>
     </content_script>
   </content_scripts>
   <permissions>
