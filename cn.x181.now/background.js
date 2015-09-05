@@ -1,14 +1,8 @@
-var searchEngine = localStorage['engine'] || 'sogou';
 var regularList = [
-  function(url) {
-    return [
-      searchEngine === 'sogou' && /^https?:\/\/(?:www\.)?sogou\.com/i.test(url),
-      searchEngine === 'google' && /^https?:\/\/(?:www\.)?google\.com/i.test(url)
-    ].some(function(v) {
-      return v;
-    });
+  function(url, item) {
+    return item.regexp.test(url);
   },
-  function( url ) {
+  function(url) {
     var searchSitesList = [
       [ /^https?:\/\/(?:www\.)?baidu\.com/, /[\?&#]wd=([^&#]+)/ ],
       [ /^https?:\/\/(?:www\.)?baidu\.com/, /[\?&#]word=([^&#]+)/ ],
@@ -35,44 +29,88 @@ var regularList = [
   }
 ];
 
-function gotosogou( id, keywords ) {
-  chrome.tabs.update( id, {
-    url: urls[searchEngine].replace( '{keyword}', (keywords || '') ),
+function create(id, url, keywords) {
+  chrome.tabs.update(id, {
+    url: url.replace('{keyword}', (keywords || '')),
     active: true,
     selected: true
   });
 }
 
-function checkSearchURL( tab ) {
+function gotonow(item, tab) {
   var url = tab.url;
-  var id = tab.id;
   var keyword = '';
-  if ( url ) {
-    for ( var i = 0, l = regularList.length; i < l; ++i ) {
-      var regular = regularList[i];
-      keyword = regular(url);
-      // @note: 已经在 sogou 页面
-      if ( keyword === true ) {
+  if (url) {
+    for (var i = 0, l = regularList.length; i < l; ++i) {
+      keyword = regularList[i](url, item);
+      if (keyword === true) {
         return;
       }
-      if ( keyword ) {
+      if (keyword) {
         break;
       }
     }
   }
-  return gotosogou( id, keyword );
+  return create(tab.id, item.url, keyword);
 }
 
-function init() {
-  chrome.tabs.getSelected(function( tab ) {
-    checkSearchURL( tab );
+var list = [
+  {
+    type: 'sogou', 
+    title: '搜狗', 
+    url: 'https://www.sogou.com/sie?ie=utf8&query={keyword}', 
+    regexp: /^https?:\/\/(www\.)?sogou\.com\//i,
+    default: true
+  },
+  {
+    type: 'google', 
+    title: 'Google', 
+    url: 'https://www.google.com/?gws_rd=cr,ssl#safe=strict&q={keyword}',
+    regexp: /^https?:\/\/(www\.)?google\.com/i
+  },
+  {
+    type: 'baidu', 
+    title: '百度', 
+    url: 'https://www.baidu.com/s?wd={keyword}',
+    regexp: /^https?:\/\/(www\.)?baidu\.com\//i
+  },
+  {
+    type: 'bing', 
+    title: 'Bing', 
+    url: 'http://cn.bing.com/search?q={keyword}',
+    regexp: /^https?:\/\/(www\.|cn\.)?bing\.com\//i
+  },
+  {
+    type: 'so', 
+    title: '好搜', 
+    url: 'http://www.haosou.com/s?ie=utf-8&q={keyword}',
+    regexp: /^https?:\/\/(www\.)?(haosou|so)\.com\//i
+  }
+];
+
+list.reverse().forEach(function(item) {
+  sogouExplorer.contextMenus.create({
+    type: 'normal',
+    title: item.title,
+    contexts: 'all',
+    onclick: function(info, tab) {
+      gotonow(item, tab);
+    }
+  }, function() {});
+});
+
+sogouExplorer.browserAction.onClicked.addListener(function() {
+  var defaultEngine = list[0];
+  var item = list.filter(function(item) {
+    return item.default === true;
   });
-}
-
-chrome.browserAction.onClicked.addListener( init );
-try {
-  sogouExplorer.sidebarAction.onClicked.addListener( init );
-} catch(e) {
-  console.log( e );
-}
+  if (item.length) {
+    defaultEngine = item[0];
+  }
+  sogouExplorer.tabs.create({
+    active: true,
+    selected: true,
+    url: defaultEngine.url.replace(/\{keyword\}/i, '')
+  });
+});
 
