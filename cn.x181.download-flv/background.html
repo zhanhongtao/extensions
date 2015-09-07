@@ -34,11 +34,19 @@ function downFromClipconverter(src, tab) {
 }
 
 function downloadFromSavefrom(src, tab) {
+  // 或者
+  // 把 https://www.youtube.com/watch?v=2xb9Ty-1frw 域名替换为
+  // https://www.ssyoutube.com/watch?v=2xb9Ty-1frw
   var api = 'http://savefrom.net/?url=';
   api += encodeURIComponent(src);
   createTab(api, tab);
 }
 
+function downloadFromKeepvid(src, tab) {
+  var api = 'http://keepvid.com/?url=';
+  api += encodeURIComponent(src);
+  createTab(api, tab);
+}
 
 var config = {
   list: [
@@ -64,6 +72,14 @@ var config = {
       contexts: 'all',
       onclick: function(info, tab) {
         downloadFromSavefrom(info.pageUrl, tab);
+      }
+    },
+    {
+      type: 'normal',
+      title: 'Keepvid(英文)',
+      contexts: 'all',
+      onclick: function(info, tab) {
+        downloadFromKeepvid(info.pageUrl, tab);
       }
     }
   ]
