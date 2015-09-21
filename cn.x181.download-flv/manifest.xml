@@ -4,7 +4,7 @@
   <name>去下载</name>
   <description>点击后, 直接跳转到下载网站.</description>
   <author>tt</author>
-  <version>0.3.2</version>
+  <version>0.4.0</version>
   <request_api_version>3</request_api_version>
   <show_icon>false</show_icon>
   <background page="background.html" />

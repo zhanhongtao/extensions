@@ -53,33 +53,37 @@ var config = {
     {
       type: 'normal',
       title: '鼹鼠(中文)',
-      contexts: 'all',
+      contexts: ['all', 'link'],
       onclick: function(info, tab) {
-        downFromFlvcd(info.pageUrl, tab);
+        var url = info.linkUrl || info.pageUrl;
+        downFromFlvcd(url, tab);
       }
     },
     {
       type: 'normal',
       title: 'Clipconverter(英文)',
-      contexts: 'all',
+      contexts: ['all', 'link'],
       onclick: function(info, tab) {
-        downFromClipconverter(info.pageUrl, tab);
+        var url = info.linkUrl || info.pageUrl;
+        downFromClipconverter(url, tab);
       }
     },
     {
       type: 'normal',
       title: 'Savefrom(英文)',
-      contexts: 'all',
+      contexts: ['all', 'link'],
       onclick: function(info, tab) {
-        downloadFromSavefrom(info.pageUrl, tab);
+        var url = info.linkUrl || info.pageUrl;
+        downloadFromSavefrom(url, tab);
       }
     },
     {
       type: 'normal',
       title: 'Keepvid(英文)',
-      contexts: 'all',
+      contexts: ['all', 'link'],
       onclick: function(info, tab) {
-        downloadFromKeepvid(info.pageUrl, tab);
+        var url = info.linkUrl || info.pageUrl;
+        downloadFromKeepvid(url, tab);
       }
     }
   ]
