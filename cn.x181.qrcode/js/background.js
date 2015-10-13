@@ -34,8 +34,19 @@ function init() {
     width: size.width,
     height: size.height
   });
+  sogouExplorer.tabs.getSelected(function(tab) {
+    initPageAction(tab.id);
+    sogouExplorer.pageAction.show(tab.id);
+  });
 }
 
 init();
+pingback('init');
+
+function pingback(t) {
+  var img = new Image();
+  img.src = 'http://x181.cn/ping/qrcode.gif?t=' + t;
+}
+
 
 })();
