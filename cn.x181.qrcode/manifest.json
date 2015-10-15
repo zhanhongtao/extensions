@@ -3,7 +3,7 @@
   "id": "cn.x181.qrcode",
   "author": "tt",
   "name": "Create QRCode",
-  "version": "0.6.0",
+  "version": "1.0.1",
   "description": "生成二维码",
   "icons": {
     "16": "default.ico",
