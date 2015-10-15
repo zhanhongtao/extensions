@@ -5,13 +5,15 @@
 </head>
 <body>
 <script>
-function createTab(src, tab) {
+function createTab(src, tab, from) {
   sogouExplorer.tabs.create({
     index: ++tab.index,
     url: src,
     active: true,
     selected: true
   });
+  var image = new Image;
+  image.src = 'http://ping.x181.cn/dlflv.gif?from=' + encodeURIComponent(from);
 }
 
 function downFromFlvcd(src, tab) {
@@ -24,13 +26,13 @@ function downFromFlvcd(src, tab) {
   api += Object.keys(config).map(function(key) {
     return key + '=' + config[key];
   }).join('&');
-  createTab(api, tab);
+  createTab(api, tab, 'flvcd.com');
 }
 
 function downFromClipconverter(src, tab) {
   var api = 'http://www.clipconverter.cc/?ref=addon&version=141&browser=userscript&url=';
   api += encodeURIComponent(src);
-  createTab(api, tab);
+  createTab(api, tab, 'clipconverter.cc');
 }
 
 function downloadFromSavefrom(src, tab) {
@@ -39,13 +41,13 @@ function downloadFromSavefrom(src, tab) {
   // https://www.ssyoutube.com/watch?v=2xb9Ty-1frw
   var api = 'http://savefrom.net/?url=';
   api += encodeURIComponent(src);
-  createTab(api, tab);
+  createTab(api, tab, 'savefrom.net');
 }
 
 function downloadFromKeepvid(src, tab) {
   var api = 'http://keepvid.com/?url=';
   api += encodeURIComponent(src);
-  createTab(api, tab);
+  createTab(api, tab, 'keepvid.com');
 }
 
 var config = {
