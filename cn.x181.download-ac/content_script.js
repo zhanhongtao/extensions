@@ -31,7 +31,8 @@ sogouExplorer.extension.onRequest.addListener(function(request) {
 });
 
 var timer;
-var box = document.body;
+var box = document.querySelector('#mainView') || document.body;
+var docHeight = box.scrollHeight;
 function _scroll() {
   if (timer) {
     clearTimeout(timer);
@@ -39,7 +40,6 @@ function _scroll() {
   }
   box.scrollTop += 20;
   var view = window.innerHeight;
-  var docHeight = document.documentElement.scrollHeight;
   if (box.scrollTop + view < docHeight) {
     timer = setTimeout(function() {
       _scroll();

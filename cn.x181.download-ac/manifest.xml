@@ -3,7 +3,7 @@
   <id>com.sogou.download-ac</id>
   <name>图片下载器</name>
   <author></author>
-  <version>0.4.2</version>
+  <version>0.4.2.6</version>
   <request_api_version>1</request_api_version>
   <show_icon>false</show_icon>
   <description>快速浏览和批量下载网页中的图片</description>
