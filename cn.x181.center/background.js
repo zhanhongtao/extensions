@@ -1,18 +1,17 @@
 var csstext = 'body {text-align: center;}';
 
-function insert(tab) {
-  sogouExplorer.tabs.insertCSS(tab.id, {
+function insert(tid) {
+  sogouExplorer.tabs.insertCSS(tid, {
     code: csstext
   });
 }
 
 function handle(url) {
-  console.log('url:', url);
   sogouExplorer.tabs.query({
     url: url
   }, function(tabs) {
     tabs.forEach(function(tab) {
-      insert(tab);
+      insert(tab.id);
     });
   });
 }
@@ -121,7 +120,11 @@ sogouExplorer.webRequest.onResponseStarted.addListener(function(detail) {
     if (header.name.toLowerCase() === 'content-type') {
       if (header.value) {
         if (/^image\/.*/i.test(header.value)) {
-          handle(detail.url);
+          if (detail.tabId != -1) {
+            insert(detail.tabId);
+          } else {
+            handle(detail.url);
+          }
         }
       }
     }
