@@ -2,7 +2,7 @@
 <extension>
   <id>cn.x181.bigadblock</id>
   <name>过滤大广告</name>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
   <author>redky</author>
   <request_api_version>1</request_api_version>
   <show_icon>false</show_icon>

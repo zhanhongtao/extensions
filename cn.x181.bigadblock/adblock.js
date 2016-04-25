@@ -2,7 +2,7 @@
 // 白名单策略.
 // 支持正则表达式/字符串/函数
 var whiteURLList = [
-  /jsfiddle\.net/
+  /jsfiddle\.net/i
 ];
 
 // @todo:
@@ -99,15 +99,11 @@ function man( elements, layer, cache ) {
   }
 }
 
-function walkDOMTreeByDeep( root, conf ) {
-
-}
-
 function walkDOMTreeByBreadth( root, conf ) {
   var stack;
   var push = Array.prototype.push;
   var noop = function(){};
-  var type = function(s){ 
+  var type = function(s){
     return Object.prototype.toString.call( s ).slice( 8, -1 ).toLowerCase();
   };
   var tag = {};
@@ -127,7 +123,7 @@ function walkDOMTreeByBreadth( root, conf ) {
       if ( children.length ) {
         stack.push( tag );
         push.apply( stack, children );
-      }    
+      }
     }
   }
   if ( type(conf.complete) == 'function' ) {
@@ -173,3 +169,4 @@ if ( !disabled ) {
     init();
   } else init();
 }
+
