@@ -92,7 +92,7 @@ list.reverse().forEach(function(item) {
   sogouExplorer.contextMenus.create({
     type: 'normal',
     title: item.title,
-    contexts: 'all',
+    contexts: ['all'],
     onclick: function(info, tab) {
       gotonow(item, tab);
     }
