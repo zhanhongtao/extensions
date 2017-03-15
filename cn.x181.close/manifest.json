@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "id": "cn.x181.close",
+  "name": "一键关闭同域名标签",
+  "author": "tt",
+  "version": "1.0.1.2",
+  "description": "一键关闭当前窗口中与当前页面同域名的所有标签页",
+  "icons": {
+    "16": "default.ico",
+    "32": "default-big.png"
+  },
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "contextMenus"
+  ],
+  "background": {
+    "page": "background.html",
+    "persistent": true,
+    "scripts": [
+      "background.js"
+    ]
+  }
+}
