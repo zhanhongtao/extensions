@@ -1,0 +1,35 @@
+{
+  "name": "觉得还不错, 共享之",
+  "manifest_version": 2,
+  "version": "1.0",
+  "author": "redky",
+  "description": "共享觉得还不错的网址",
+  "browser_action": {
+    "default_icon": "default.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "contentscript.js"
+      ]
+    }
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "permissions": [
+    "*://*/*",
+    "tabs",
+    "contextMenus"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "icons": {
+    "128": "default-big.png"
+  },
+  "web_accessible_resources": [
+    "default.png"
+  ]
+}
