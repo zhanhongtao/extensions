@@ -1,6 +1,21 @@
-var code = localStorage.code
+var code = window.localStorage.code
+var timer
+
+function showMessage (message, time) {
+  chrome.browserAction.setBadgeText({
+    text: message
+  })
+  if (timer) clearTimeout(timer)
+  timer = setTimeout(function () {
+    chrome.browserAction.setBadgeText({
+      text: ''
+    })
+  }, time * 1000)
+}
 
 function ping (title, url, tags) {
+  showMessage('ping', 30)
+  var dfd = new $.Deferred()
   $.ajax({
     url: 'http://x181.cn/bookmarks/api.php?action=collect',
     dataType: 'json',
@@ -11,7 +26,14 @@ function ping (title, url, tags) {
       url: url,
       tags: tags
     }
+  }).done(function () {
+    showMessage('ok', 1.5)
+    dfd.resolve()
+  }).fail(function () {
+    showMessage('e', 1.5)
+    dfd.reject()
   })
+  return dfd.promise()
 }
 
 function collectit (tab, force) {
@@ -24,7 +46,7 @@ function collectit (tab, force) {
       if (user != null) {
         user = String(user).trim()
         if (user) {
-          code = localStorage.code = user
+          code = window.localStorage.code = user
         }
       }
       collectit(tab, true)
