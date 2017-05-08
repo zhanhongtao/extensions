@@ -34,10 +34,7 @@ function utf16to8(str) {
   }
   return out;
 }
-function pingback(t) {
-  var img = new Image();
-  img.src = 'http://x181.cn/ping/qrcode.gif?t=' + t;
-}
+
 function createQRCode(text) {
   text = utf16to8(text);
   var config = {
@@ -48,7 +45,13 @@ function createQRCode(text) {
     color: '#0066ff'
   };
   $( '#box' ).empty().qrcode( config );
-  pingback('qrcode')
+  sogouExplorer.extension.sendRequest({
+    cmd: 'ping',
+    payload: {
+      type: 'qrcode',
+      text: text
+    }
+  })
 }
 
 var search = location.search, page;
