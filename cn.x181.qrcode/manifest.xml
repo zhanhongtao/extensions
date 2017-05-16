@@ -3,7 +3,7 @@
   <id>cn.x181.qrcode</id>
   <name>Create QRCode</name>
   <description>生成二维码</description>
-  <version>1.0.1</version>
+  <version>1.1.1</version>
   <request_api_version>1</request_api_version>
   <author>tt</author>
   <show_icon>false</show_icon>
