@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "id": "cn.x181.mergewindows",
+  "name": "合并浏览器窗口",
+  "author": "tt",
+  "version": "1.0.0",
+  "description": "把多个浏览器窗口合并为一个",
+  "icons": {
+    "16": "default.ico",
+    "32": "default-big.png"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "background": {
+    "page": "background.html",
+    "persistent": true,
+    "scripts": [
+      "background.js"
+    ]
+  }
+}
