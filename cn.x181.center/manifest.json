@@ -9,6 +9,7 @@
     "16": "default.ico",
     "32": "default-big.png"
   },
+  "show_icon": false,
   "permissions": [
     "tabs",
     "webRequest",
