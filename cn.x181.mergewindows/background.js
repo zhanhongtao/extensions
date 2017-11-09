@@ -52,6 +52,4 @@ function mergeWindows() {
   })
 }
 
-sogouExplorer.browserAction.onClicked.addListener(function () {
-  mergeWindows()
-})
+sogouExplorer.browserAction.onClicked.addListener(mergeWindows)
