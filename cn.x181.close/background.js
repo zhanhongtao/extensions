@@ -31,3 +31,9 @@ sogouExplorer.contextMenus.create({
     closetabs(tab)
   }
 }, function () {})
+
+sogouExplorer.browserAction.onClicked.addListener(function () {
+  sogouExplorer.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    closetabs(tabs[0])
+  })
+})

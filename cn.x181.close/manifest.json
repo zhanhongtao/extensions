@@ -3,7 +3,7 @@
   "id": "cn.x181.close",
   "name": "一键关闭同域名标签",
   "author": "tt",
-  "version": "1.0.1.2",
+  "version": "1.0.2.0",
   "description": "一键关闭当前窗口中与当前页面同域名的所有标签页",
   "icons": {
     "16": "default.ico",
